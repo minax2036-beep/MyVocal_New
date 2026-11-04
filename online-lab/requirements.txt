@@ -1,0 +1,4 @@
+Flask>=3.0,<4
+numpy>=1.26,<3
+soundfile>=0.12,<1
+gunicorn>=22,<24
