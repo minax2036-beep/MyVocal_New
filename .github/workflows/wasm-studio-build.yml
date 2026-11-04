@@ -1,0 +1,41 @@
+name: MyVocal WASM Build
+
+on:
+  push:
+    branches:
+      - feature/wasm-studio
+    paths:
+      - "wasm-studio/**"
+      - ".github/workflows/wasm-studio-build.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+
+      - name: Configure
+        working-directory: wasm-studio
+        run: emcmake cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        working-directory: wasm-studio
+        run: cmake --build build --parallel
+
+      - name: Assemble browser files
+        run: |
+          mkdir -p dist
+          cp wasm-studio/index.html wasm-studio/style.css wasm-studio/app.js dist/
+          cp wasm-studio/build/engine.js wasm-studio/build/engine.wasm dist/
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: myvocal-studio-wasm
+          path: dist/
+          if-no-files-found: error
