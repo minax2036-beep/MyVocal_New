@@ -43,7 +43,7 @@
 
     <section class="panel">
       <div class="section-heading"><div><span class="step">03</span><h2>音声解析</h2></div><button id="analyzeButton" class="primary" disabled>F0を解析</button></div>
-      <p class="muted description">YIN方式で基本周波数（F0）を推定します。無声音やノイズが多い箇所では誤差が出る場合があります。</p>
+      <p class="muted description">WORLDのDIOとStoneMaskで基本周波数（F0）を推定します。WORLDは16 kHz以上の音声を対象とします。</p>
       <canvas id="pitchGraph" width="1200" height="260" aria-label="F0解析グラフ"></canvas>
       <div class="stats">
         <div><span>F0中央値</span><strong id="medianF0">—</strong></div>
@@ -71,7 +71,7 @@
           <input id="endSlider" type="range" min="0" max="0" step="0.01" value="0">
         </label>
       </div>
-      <p class="notice">試作版のピッチ変更は時間長を維持するPSOLA方式です。音声や音程によっては音質の変化・解析誤差が出る場合があります。</p>
+      <p class="notice">WORLDのF0を変更して再合成します。選択範囲と同じサンプル数で出力するため、ピッチ変更後も時間長を維持します。音声や音程によっては音質の変化が出る場合があります。</p>
       <div class="actions">
         <button id="previewEdit" class="primary" disabled>編集結果を生成</button>
         <button id="resetEdit" disabled>編集値をリセット</button>
@@ -80,7 +80,7 @@
       <audio id="editedPlayer" controls></audio>
       <div class="file-info" id="editInfo">編集結果はまだありません。</div>
     </section>
-    <footer>MyVocal Studio · WASM audio engine prototype</footer>
+    <footer>MyVocal Studio · WORLD vocoder / WebAssembly</footer>
   </main>
   <script src="engine.js"></script>
   <script src="app.js"></script>
