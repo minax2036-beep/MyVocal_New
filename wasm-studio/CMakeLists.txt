@@ -6,7 +6,7 @@ target_compile_features(myvocal_engine PRIVATE cxx_std_17)
 target_compile_options(myvocal_engine PRIVATE -O3 -Wall -Wextra)
 
 if(EMSCRIPTEN)
-  set_target_properties(myvocal_engine PROPERTIES SUFFIX ".js")
+  set_target_properties(myvocal_engine PROPERTIES OUTPUT_NAME "engine" SUFFIX ".js")
   target_link_options(myvocal_engine PRIVATE
     "-sWASM=1"
     "-sMODULARIZE=1"
