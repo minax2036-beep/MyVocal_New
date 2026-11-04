@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>MyVocal Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./"><span class="brand-mark">M</span><span>MyVocal <b>Studio</b></span></a>
+    <span class="engine-status" id="engineStatus"><i></i> Engine loading</span>
+  </header>
+  <main class="layout">
+    <section class="intro">
+      <p class="eyebrow">BROWSER AUDIO WORKSTATION</p>
+      <h1>音声を、見て、調べて、編集する。</h1>
+      <p>音声処理はブラウザ内で実行。音声ファイルを外部サーバーへ送信しません。</p>
+    </section>
+
+    <section class="panel import-panel">
+      <div class="section-heading"><div><span class="step">01</span><h2>音声ファイル</h2></div><span class="muted">WAV / MP3 / M4A など</span></div>
+      <label class="drop-zone" id="dropZone">
+        <input id="audioFile" type="file" accept="audio/*">
+        <span class="upload-icon">↑</span>
+        <strong>音声ファイルを選択</strong>
+        <span class="muted">クリック、またはここにファイルをドロップ</span>
+      </label>
+      <div class="file-info" id="fileInfo">ファイルはまだ読み込まれていません。</div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><span class="step">02</span><h2>波形・再生</h2></div><span class="muted" id="durationLabel">00:00.0</span></div>
+      <canvas id="waveform" width="1200" height="180" aria-label="音声波形"></canvas>
+      <div class="transport">
+        <button class="primary" id="playButton" disabled>▶ 再生</button>
+        <button id="stopButton" disabled>■ 停止</button>
+        <span class="time-readout" id="timeReadout">00:00.0 / 00:00.0</span>
+        <audio id="audioPlayer" controls></audio>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><span class="step">03</span><h2>音声解析</h2></div><button id="analyzeButton" class="primary" disabled>F0を解析</button></div>
+      <p class="muted description">YIN方式で基本周波数（F0）を推定します。無声音やノイズが多い箇所では誤差が出る場合があります。</p>
+      <canvas id="pitchGraph" width="1200" height="260" aria-label="F0解析グラフ"></canvas>
+      <div class="stats">
+        <div><span>F0中央値</span><strong id="medianF0">—</strong></div>
+        <div><span>有声音フレーム</span><strong id="voicedFrames">—</strong></div>
+        <div><span>解析フレーム</span><strong id="totalFrames">—</strong></div>
+      </div>
+      <button id="downloadCsv" disabled>解析CSVを保存</button>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><span class="step">04</span><h2>音声編集</h2></div><span class="muted">元ファイルは変更されません</span></div>
+      <div class="edit-grid">
+        <label>ピッチ変更 <output id="pitchValue">0 semitones</output>
+          <input id="pitchSlider" type="range" min="-12" max="12" step="1" value="0">
+          <span class="range-labels"><span>-12</span><span>0</span><span>+12</span></span>
+        </label>
+        <label>音量 <output id="gainValue">100%</output>
+          <input id="gainSlider" type="range" min="0" max="200" step="1" value="100">
+          <span class="range-labels"><span>0%</span><span>100%</span><span>200%</span></span>
+        </label>
+        <label>開始位置（秒）<output id="startValue">0.00 s</output>
+          <input id="startSlider" type="range" min="0" max="0" step="0.01" value="0">
+        </label>
+        <label>終了位置（秒）<output id="endValue">0.00 s</output>
+          <input id="endSlider" type="range" min="0" max="0" step="0.01" value="0">
+        </label>
+      </div>
+      <p class="notice">試作版のピッチ変更は再サンプリング方式です。音程と再生時間が同時に変わります。時間を維持する高品質なPSOLAは今後実装します。</p>
+      <div class="actions">
+        <button id="previewEdit" class="primary" disabled>編集結果を生成</button>
+        <button id="resetEdit" disabled>編集値をリセット</button>
+        <button id="downloadWav" disabled>WAVを書き出す</button>
+      </div>
+      <audio id="editedPlayer" controls></audio>
+      <div class="file-info" id="editInfo">編集結果はまだありません。</div>
+    </section>
+    <footer>MyVocal Studio · WASM audio engine prototype</footer>
+  </main>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
