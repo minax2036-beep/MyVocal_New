@@ -41,6 +41,7 @@ jobs:
         run: |
           mkdir -p dist
           cp wasm-studio/index.html wasm-studio/style.css wasm-studio/app.js dist/
+          cp wasm-studio/WORLD-LICENSE.txt dist/
           cp wasm-studio/build/engine.js wasm-studio/build/engine.wasm dist/
 
       - name: Upload downloadable build artifact
