@@ -48,7 +48,7 @@
   function analyze() {
     if(!engine||!mono)return;
     const frameSize=Math.min(2048,Math.max(512,Math.round(sourceBuffer.sampleRate*0.04))),hop=Math.max(128,Math.round(sourceBuffer.sampleRate*0.01));
-    const maxFrames=Math.max(1,Math.ceil(mono.length/hop)),inPtr=allocFloats(mono),outPtr=engine._malloc(maxFrames*4);
+    const maxFrames=Math.max(1,Math.ceil(mono.length/hop)+8),inPtr=allocFloats(mono),outPtr=engine._malloc(maxFrames*4);
     try {
       const count=engine._analyze_f0(inPtr,mono.length,sourceBuffer.sampleRate,frameSize,hop,outPtr,maxFrames);
       if(count<0)throw new Error("F0 analysis failed");
@@ -98,5 +98,5 @@
   $("endSlider").addEventListener("input",e=>{let v=Math.max(Number(e.target.value),Number($("startSlider").value)+0.01);e.target.value=Math.min(sourceBuffer?.duration||0,v);$("endValue").textContent=Number(e.target.value).toFixed(2)+" s";});
   $("resetEdit").addEventListener("click",()=>{$("pitchSlider").value=0;$("gainSlider").value=100;$("startSlider").value=0;$("endSlider").value=sourceBuffer.duration;$("pitchValue").textContent="0 semitones";$("gainValue").textContent="100%";$("startValue").textContent="0.00 s";$("endValue").textContent=sourceBuffer.duration.toFixed(2)+" s";});
   if(typeof createMyVocalEngine!=="function"){setStatus("WASM engine missing");return;}
-  createMyVocalEngine().then(instance=>{engine=instance;setStatus("C++ / WASM ready",true);}).catch(err=>{console.error(err);setStatus("WASM load failed");});
+  createMyVocalEngine().then(instance=>{engine=instance;setStatus("WORLD / C++ / WASM ready",true);}).catch(err=>{console.error(err);setStatus("WASM load failed");});
 })();
