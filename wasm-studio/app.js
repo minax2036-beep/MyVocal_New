@@ -74,7 +74,7 @@
     const outLength=engine._processed_length(mono.length,start,end,semitones);if(outLength<=0||outLength>sourceBuffer.sampleRate*60*10){alert("編集後の音声サイズが不正です。");return;}
     const inPtr=allocFloats(mono),outPtr=engine._malloc(outLength*4);
     try {
-      const count=engine._process_audio(inPtr,mono.length,start,end,semitones,gain,outPtr,outLength);
+      const count=engine._process_audio(inPtr,mono.length,start,end,sourceBuffer.sampleRate,semitones,gain,outPtr,outLength);
       if(count<0)throw new Error("Audio processing failed");
       const samples=engine.HEAPF32.slice(outPtr/4,outPtr/4+count);editedWav=makeWav(samples,sourceBuffer.sampleRate);
       if(editedUrl)URL.revokeObjectURL(editedUrl);editedUrl=URL.createObjectURL(editedWav);editedPlayer.src=editedUrl;
