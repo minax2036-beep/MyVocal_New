@@ -24,7 +24,7 @@ emcmake cmake -S . -B build
 cmake --build build
 ```
 
-Copy the generated `build/myvocal_engine.js` and `build/myvocal_engine.wasm` into this directory (next to `index.html`).
+Copy the generated `build/engine.js` and `build/engine.wasm` into this directory (next to `index.html`).
 
 For local testing, serve this directory over HTTP (for example, `python3 -m http.server 8000`) and open `http://localhost:8000`. Opening the HTML as a `file://` URL may prevent WASM loading.
 
